@@ -8,9 +8,19 @@ opts.parse([
     'value': true,
     'required': true
   },
+  {
+    'short': 's',
+    'long': 'status',
+    'description': 'status: draft/publish/review/future/spam',
+    'value': true,
+    'required': false
+  }
 ]);
 var filename = opts.get('input');
-
+var status = opts.get('status');
+if (!status) {
+    status = 'draft';
+}
 
 // Load input file
 function loadFile(fname) {
@@ -69,7 +79,7 @@ function makeEntry(fname) {
   var more = entry.replace(body, '');
 
   return {
-    status: 'draft',
+    status: status,
       title: title,
       body: body,
       more: more,
