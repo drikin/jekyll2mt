@@ -1,0 +1,27 @@
+{
+  "name": "jekyll2mt",
+  "version": "0.0.0",
+  "description": "post to MT from Jekyll markdown",
+  "main": "index.js",
+  "dependencies": {
+    "mt-data-api-sdk": "~0.1.0",
+    "opts": "~1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/drikin/jekyll2mt.git"
+  },
+  "keywords": [
+    "MT",
+    "Jekyll"
+  ],
+  "author": "drikin",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/drikin/jekyll2mt/issues"
+  }
+}
