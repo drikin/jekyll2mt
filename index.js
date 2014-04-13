@@ -44,6 +44,14 @@ function makeEntry(fname) {
     }
   }
 
+  // get keywords
+  if (head) {
+    var line = head[0].match(/categories:\s*(.*)/);
+    if (line) {
+        var keywords = line[1];
+    }
+  }
+
   // get Body
   var entry = text.replace(head, '');
   entry = entry.replace(/^\s*/, '');
@@ -65,7 +73,8 @@ function makeEntry(fname) {
       title: title,
       body: body,
       more: more,
-      basename: basename
+      basename: basename,
+      keywords: keywords
   }
 }
 var MT = {
