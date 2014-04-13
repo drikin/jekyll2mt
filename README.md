@@ -10,6 +10,10 @@ Install
 $ npm install
 ```
 
+Setup
+-----
+Modify `MT_DATA_API_URL`, `MT_USER`, `MT_PASSWORD` in index.js for your environment;
+
 Usage
 -----
 
