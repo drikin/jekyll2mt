@@ -46,7 +46,7 @@ function makeEntry(fname) {
   var text = loadFile(fname);
 
   // get Title
-  var head = text.match(/^---[\s\S]*---/);
+  var head = text.match(/^---[\s\S]*---\s/);
   if (head) {
     var title = head[0].match(/title:\s*['"](.*)['"]/);
     if (title) {
