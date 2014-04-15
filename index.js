@@ -7,20 +7,9 @@ opts.parse([
     'description': 'input file',
     'value': true,
     'required': true
-  },
-  {
-    'short': 's',
-    'long': 'status',
-    'description': 'status: draft/publish/review/future/spam',
-    'value': true,
-    'required': false
   }
 ]);
 var filename = opts.get('input');
-var status = opts.get('status');
-if (!status) {
-    status = 'draft';
-}
 
 // Load input file
 function loadFile(fname) {
@@ -49,26 +38,38 @@ function makeEntry(fname) {
   // get Title
   var head = text.match(/^---[\s\S]*---\s/);
   if (head) {
-    var title = head[0].match(/title:\s*['"](.*)['"]/);
+    var title = head[0].match(/title: *['"](.*)['"]/);
     if (title) {
       title = title[1];
     }
   }
 
+  // get Status
+  if (head) {
+    var status = 'draft';
+    var line = head[0].match(/status: *(.*)/);
+    line = line[1];
+    if (line) {
+      status = line;
+    }
+  }
+
   // get keywords
   if (head) {
-    var line = head[0].match(/categories:\s*(.*)/);
+    var line = head[0].match(/categories: *(.*)/);
+    line = line[1];
     if (line) {
-        var keywords = line[1];
+        var keywords = line;
     }
   }
 
   // entryId keywords
   if (head) {
     var entryId = null;
-    var line = head[0].match(/entryId:\s*(.*)/);
+    var line = head[0].match(/entryId: *(.*)/);
+    line = line[1];
     if (line) {
-        entryId = line[1];
+        entryId = line;
     }
   }
 
@@ -116,12 +117,14 @@ api.authenticate(credential, function(response) {
   if (!response.error) {
     var id = entryData.entryId;
     if (id) {
+        console.log('Update');
         api.updateEntry(MT_BLOG_ID, id, entryData, function(response) {
-        console.log(response);
+            console.log(response);
         });
     } else {
+        console.log('Create');
         api.createEntry(MT_BLOG_ID, entryData, function(response) {
-        console.log(response);
+            console.log(response);
         });
     }
   }
