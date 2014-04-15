@@ -33,6 +33,7 @@ function loadFile(fname) {
 var MT_DATA_API_URL = 'XXXXX';
 var MT_USER         = 'XXXXX';
 var MT_PASSWORD     = 'XXXXX';
+var MT_BLOG_ID      = 2;
 
 function makeEntry(fname) {
   var path = require('path');
@@ -62,6 +63,15 @@ function makeEntry(fname) {
     }
   }
 
+  // entryId keywords
+  if (head) {
+    var entryId = null;
+    var line = head[0].match(/entryId:\s*(.*)/);
+    if (line) {
+        entryId = line[1];
+    }
+  }
+
   // get Body
   var entry = text.replace(head, '');
   entry = entry.replace(/^\s*/, '');
@@ -80,11 +90,12 @@ function makeEntry(fname) {
 
   return {
     status: status,
-      title: title,
-      body: body,
-      more: more,
-      basename: basename,
-      keywords: keywords
+    entryId: entryId,
+    title: title,
+    body: body,
+    more: more,
+    basename: basename,
+    keywords: keywords
   }
 }
 var MT = {
@@ -103,9 +114,16 @@ var entryData = makeEntry(filename);
 // Session information will be stored to "$HOME/.mt-data-api.json" by default.
 api.authenticate(credential, function(response) {
   if (!response.error) {
-    api.createEntry(2, entryData, function(response) {
-      console.log(response);
-    });
+    var id = entryData.entryId;
+    if (id) {
+        api.updateEntry(MT_BLOG_ID, id, entryData, function(response) {
+        console.log(response);
+        });
+    } else {
+        api.createEntry(MT_BLOG_ID, entryData, function(response) {
+        console.log(response);
+        });
+    }
   }
 });
 
