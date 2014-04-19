@@ -117,14 +117,12 @@ api.authenticate(credential, function(response) {
   if (!response.error) {
     var id = entryData.entryId;
     if (id) {
-        console.log('Update');
         api.updateEntry(MT_BLOG_ID, id, entryData, function(response) {
-            console.log(response);
+            console.log('Update Success! entryId: ' + response.id);
         });
     } else {
-        console.log('Create');
         api.createEntry(MT_BLOG_ID, entryData, function(response) {
-            console.log(response);
+            console.log('Create Success! entryId: ' + response.id);
         });
     }
   }
